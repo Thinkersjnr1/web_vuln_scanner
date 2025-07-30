@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Vulnerability Scanner</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #000000; color: #ffffff; text-align: center; padding: 50px; }
+        h1 { color: #3533cd; }
+        input[type="text"] { padding: 10px; width: 300px; }
+        input[type="submit"] { padding: 10px 20px; background-color: #3533cd; color: #ffffff; border: none; cursor: pointer; }
+        input[type="submit"]:hover { background-color: #2a2a9e; }
+        input[type="submit"]:disabled { background-color: #555555; cursor: not-allowed; }
+        .loader { display: none; margin-top: 20px; }
+        .loader.show { display: block; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3533cd; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <h1>Web Vulnerability Scanner</h1>
+    <form id="scanForm" method="POST" action="/start_scan">
+        <input type="text" name="url" placeholder="Enter target URL (e.g., http://testphp.vulnweb.com)" required>
+        <br><br>
+        <input type="submit" value="Scan Now" id="scanButton">
+    </form>
+    <div class="loader" id="loader">
+        <p>Scanning... <span id="progress">0%</span></p>
+        <div class="spinner"></div>
+    </div>
+    <script>
+        document.getElementById('scanForm').addEventListener('submit', function() {
+            document.getElementById('scanButton').disabled = true;
+            document.getElementById('loader').classList.add('show');
+            // Poll for progress every 2 seconds
+            const progressInterval = setInterval(async () => {
+                const response = await fetch('/progress');
+                const data = await response.json();
+                document.getElementById('progress').textContent = `${data.progress}%`;
+                if (data.progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
