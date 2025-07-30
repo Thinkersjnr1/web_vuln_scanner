@@ -1,0 +1,9 @@
+Project Structure
+web-vuln-scanner/
+├── web_vuln_scanner.py    # Flask app with ZAP integration and routes
+├── templates/
+│   ├── index.html         # Input form with progress indicator
+│   ├── results.html       # Results table and report download link
+├── README.md              # Project documentation
+├── vuln.db                # SQLite database (generated on first run)
+├── report_*.pdf           # Generated PDF reports (excluded in .gitignore)
