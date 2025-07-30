@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #000000; color: #ffffff; padding: 50px; }
+        h1 { color: #3533cd; }
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid #3533cd; padding: 10px; text-align: left; }
+        th { background-color: #3533cd; }
+        a { color: #3533cd; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Scan Results for {{ url }}</h1>
+    <table>
+        <tr>
+            <th>Vulnerability</th>
+            <th>Description</th>
+            <th>Mitigation</th>
+        </tr>
+        {% for alert in alerts %}
+        <tr>
+            <td>{{ alert.alert }}</td>
+            <td>{{ alert.description }}</td>
+            <td>{{ get_mitigation(alert.alert) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('generate_report', url=url) }}">Download PDF Report</a>
+</body>
+</html>
